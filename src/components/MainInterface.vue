@@ -47,6 +47,12 @@
             }
         },
         components:{UserInfo,Browser,Login},
+        beforeDestroy:function(){
+            if(!this.remember)this.$cookies.remove('loginStatus');
+        },
+        created:function(){
+          this.loginStatus=this.loginCompStatus;
+        },
         computed:{
             loginCompStatus:function(){
                 if(this.$cookies.isKey('loginStatus'))
@@ -76,13 +82,15 @@
                     if(remember){
                     this.$cookies.set('loginStatus',true);
                     this.$cookies.set('userID',index);}
-                    this.loginStatus=true;
                     this.userID=name;
+                    this.loginStatus=true;
                     if(index===0)this.userType='user';
                 }
             },
             handleLogout:function(){
-                this.$cookies.set('loginStatus',false);
+                this.$cookies.remove('loginStatus');
+                this.$cookies.remove('userID');
+                this.remember=false;
                 this.loginStatus=false;
             }
     }}
