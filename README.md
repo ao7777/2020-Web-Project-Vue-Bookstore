@@ -1,4 +1,4 @@
-# untitled1
+# Vue Bookstore
 
 ## Project setup
 ```
