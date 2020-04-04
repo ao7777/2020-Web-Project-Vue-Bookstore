@@ -1,5 +1,5 @@
 <template >
-    <div >
+    <div class="mainInterface">
         <UserInfo :init-book-data="bookData" @requestSearch="handleSearch"
                   :login-status="loginStatus" :init-user-info-data="userData"
                 :user-init-i-d="userID" @logout="handleLogout"
