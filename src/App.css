@@ -1,0 +1,95 @@
+
+
+.mainInterface{
+
+}
+.functionBar{
+  position: fixed;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  padding: 0;
+  left:6px;
+  top:100px;
+  width: 150px;
+  float: left;
+  height: auto;
+}
+.icon {
+  white-space:nowrap;
+  display: inline-block;
+  height: 30px;
+  vertical-align: middle;
+}
+body{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.searchIcon:before{
+  display: block;
+  color: #cccccc;
+}
+.searchIcon:before:hover .searchIcon::before:active{
+  color: #FFFFFF;
+  transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.menuButton{
+  color: #cccccc;
+  transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.menuButton:hover,.menuButton:active{
+  color: #FFFFFF;
+}
+.floatButton{
+  /*border: aquamarine;*/
+  /*color: #FFFFFF;*/
+  /*background-color: #57bd7e;*/
+  cursor:pointer;
+  display: block;
+  padding: 4px;
+  font-weight: bold;
+  margin:auto;
+  font-size: 20px;
+  width:120px;
+  height:50px;
+  text-align: center;
+}
+.floatButton:link,.floatButton:visited{
+  display: block;
+  padding: 4px;
+  font-weight: bold;
+  margin:auto;
+  /*color:#FFFFFF;*/
+  font-size: 25px;
+  width:120px;
+  height:50px;
+  text-align: center;
+}
+.floatButton :hover,.floatButton:active{
+  /*background-color: rgba(68, 170, 14, 0.85);*/
+}
+
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+div.bookShelf{
+  align-items: baseline;
+  display: flex;
+  flex-wrap:wrap;
+  align-content:space-evenly;
+  justify-content: space-evenly;
+  margin: auto;
+  width: 80%;
+}
+.detail{
+  font-size: 10px;
+  font-weight: bold;
+}
+.price{
+  /*color: #3e855a;*/
+}
