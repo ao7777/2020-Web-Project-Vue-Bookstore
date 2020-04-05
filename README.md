@@ -1,5 +1,5 @@
 # Vue Bookstore
-
+This is a project for Web Application Course using vue.
 ## Project setup
 ```
 npm install
