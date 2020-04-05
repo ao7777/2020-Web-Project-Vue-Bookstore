@@ -79,8 +79,8 @@
             },
         },
         watch:{
-            loginStatus:function(newStat){
-                this.isLogin=newStat;
+            userInitID:function(){
+                this.isLogin=this.loginStatus;
             }
         }
     }

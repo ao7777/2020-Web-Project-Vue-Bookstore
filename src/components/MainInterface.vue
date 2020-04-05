@@ -47,9 +47,6 @@
             }
         },
         components:{UserInfo,Browser,Login},
-        beforeDestroy:function(){
-            if(!this.remember)this.$cookies.remove('loginStatus');
-        },
         created:function(){
           this.loginStatus=this.loginCompStatus;
         },
@@ -82,15 +79,20 @@
                     if(remember){
                     this.$cookies.set('loginStatus',true);
                     this.$cookies.set('userID',index);}
+                    else{
+                        this.$cookies.set('loginStatus',true,1);
+                        this.$cookies.set('userID',index,1);}
+
                     this.userID=name;
                     this.loginStatus=true;
                     if(index===0)this.userType='user';
                 }
             },
             handleLogout:function(){
+                if(this.remember){
                 this.$cookies.remove('loginStatus');
                 this.$cookies.remove('userID');
-                this.remember=false;
+}                this.remember=false;
                 this.loginStatus=false;
             }
     }}
