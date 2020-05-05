@@ -2,7 +2,7 @@
     <div class="browser">
             <Board />
             <BookShelf :init-filter-text="filterText" :init-book-data="bookData"
-            :is-request-search="isSearch" :mode="mode"
+            :is-request-search="isSearch" :mode="mode" @addItem="handleAdd"
             />
     </div>
 </template>
@@ -19,6 +19,11 @@
             }
         },
         components:{BookShelf,Board},
+        methods:{
+            handleAdd:function(isbn){
+                this.$emit("addItem",isbn)
+            }
+        }
     }
 </script>
 

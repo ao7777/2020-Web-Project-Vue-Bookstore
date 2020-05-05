@@ -2,19 +2,13 @@
         <div class="boardContainer">
             <span class="greeting">书富如入海,
                 <br />百货皆有。</span>
-            <img class="board" :src="boardPic" alt="''">
+            <img class="board" src="http://localhost:8090/board.jpg" alt="''"/>
         </div>
 </template>
 
 <script>
-    import boardPic from "../assets/board.jpg"
     export default {
         name: "Board",
-        data:function () {
-            return{
-                boardPic
-            }
-        }
     }
 </script>
 

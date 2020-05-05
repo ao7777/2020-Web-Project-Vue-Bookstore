@@ -1,5 +1,5 @@
 <template >
-        <a :class="[visible?'menuButton':'menuButton hidden']"  :href="Func" :title="buttonName">
+        <a :class="[visible?'menuButton':'menuButton hidden']"  href="#" @click="handleSwitch" :title="buttonName">
             <span>{{buttonName}}</span>
         </a>
 </template>
@@ -13,7 +13,9 @@
           }
         },
         methods:{
-
+            handleSwitch:function(){
+                this.$emit("switch",this.Func);
+            }
         }
     }
 </script>
@@ -45,6 +47,9 @@
         transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
         -webkit-tap-highlight-color: transparent;
         outline-offset: -7px;
+    }
+    .menuButton:focus{
+        color: #FFFFFF;
     }
     .hidden{
         transform: scale(0);

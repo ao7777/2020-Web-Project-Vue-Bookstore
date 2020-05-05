@@ -1,6 +1,6 @@
 <template>
     <div class="peekRow">
-        <img :src="book.pic" alt="''" class='peekPic'/>
+        <img :src="'./'+book.isbn+'.jpg'"  alt="''" class='peekPic'/>
         <p class='peekName'>{{book.name}}</p>
         <p class='peekDetail'>
             {{book.author}}<br />

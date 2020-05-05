@@ -2,12 +2,12 @@
     <div class="navBarContainer">
         <ul class="navBar" @mouseleave="showAccntOption=false" >
             <li class="menu" >
-                <a class="menuButton" href="">
+                <a class="menuButton" href="./home">
                     <i class="fas fa-kiwi-bird"></i>
                 </a>
             </li>
             <li :id="menu.name" :key="menu.name" class="menu" v-for="menu in menus">
-                <NavButton :Func="menu.ref" :Name="menu.name" :visible="!showSearch"/>
+                <NavButton :Func="menu.ref" :Name="menu.name" :visible="!showSearch" @switch="handleSwitch"/>
             </li>
             <li :class="[showSearch?'showingSearch':'']">
                 <a @click="showSearch=!showSearch" class="searchIcon" href="javascript:">
@@ -42,15 +42,15 @@
 
     export default {
         name: "UserInfo",
-        props: ['initBookData','loginStatus','initUserInfoData','userInitID'],
+        props: ['initBookData','loginStatus','initUserInfoData','userInitID','display'],
         data: function () {
             return {
                 userInfoData:this.initUserInfoData,
                 menus: [
-                    {ref: "./book", name: "图书"},
-                    {ref: "./cart", name: "购物车"},
-                    {ref: "./order", name: "订单"},
-                    {ref: "./account", name: "账号"}
+                    {ref: "books", name: "图书"},
+                    {ref: "cart", name: "购物袋"},
+                    {ref: "orders", name: "订单"},
+                    {ref: "account", name: "账号"}
                 ],
                 showSearch: false,
                 searchIcon: searchicon,
@@ -68,12 +68,15 @@
             },
             handleLogout:function(){
                 this.$emit('logout');
+            },
+            handleSwitch:function (e) {
+                this.$emit('switch',e);
             }
         },
         computed:{
             userCompName:function () {
                 if(this.loginStatus){
-                    return this.userInfoData[this.$cookies.get('userID')].name;
+                    return this.userInfoData.name;
                 }
                 else return "登录";
             },
