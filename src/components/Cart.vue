@@ -87,6 +87,7 @@
                 this.success=true;
                 this.books.splice(0,this.books.length);
                 this.$store.state.cartItem.splice(0,this.books.length);
+                this.$store.commit('submitCart');
                 }
                 )
             }

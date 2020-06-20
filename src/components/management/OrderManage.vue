@@ -1,7 +1,15 @@
 <template>
     <b-container>
         <h2>订单管理</h2>
-        <b-form-group id="inputDate1" label="筛选" label-for="inputDate1" style="margin:auto;padding: 20px">
+        <b-form-group  id="inputDate1" label="筛选" label-for="inputDate1" style="margin:auto;padding: 20px">
+            <b-row style="padding: 15px">
+                    <b-form-input class="mb-3"
+                            id="input-1"
+                            v-model="filterID"
+                            required
+                            placeholder="输入用户ID"
+                    ></b-form-input>
+            </b-row>
             <b-row>
 
                 <b-col>
@@ -32,6 +40,7 @@
                 orders:[],
                 filterDateAfter:"2020-01-01",
                 filterDateBefore:"2020-12-31",
+                filterID:null,
             }
         },
         created:function(){

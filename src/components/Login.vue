@@ -1,17 +1,26 @@
 <template>
     <div style="margin-top: 88px;position: relative;">
-    <div  class="text-center container">
+    <b-container style="max-width: 400px;text-align: center">
         <i class="fas fa-kiwi-bird"></i>
-        <form v-if="signIn===false" class="form-signin" >
+        <b-form style="width: 70%;margin: auto" @@submit.stop.prevent="handleSubmit" v-if="signIn===false"  >
             <h2 class="h3 mb-3 font-weight-normal">请登录</h2>
-            <label for="inputName" class="sr-only">用户名</label>
-            <input type="text" id="inputName" class="form-control"
-                   v-model="name"
-                   placeholder="用户名" required="" autofocus="">
-            <label for="inputPassword" class="sr-only">密码</label>
-            <input type="password"
-                   v-model="password"
-                   id="inputPassword" class="form-control" placeholder="密码" required="">
+            <b-form-group id="input-group-1" label="用户名" label-for="input-1">
+                <b-form-input
+                        id="input-1"
+                        v-model="name"
+                        required
+                        placeholder="输入用户名"
+                ></b-form-input>
+            </b-form-group>
+            <b-form-group id="input-group-2" label="密码" label-for="input-2">
+                <b-form-input
+                        id="input-2"
+                        type="password"
+                        v-model="password"
+                        required
+                        placeholder="输入密码"
+                ></b-form-input>
+            </b-form-group>
             <div class="checkbox mb-3">
                 <label style="font-weight: 400">
                     <input type="checkbox"
@@ -19,11 +28,11 @@
                            value="remember-me"> 记住我
                 </label>
             </div>
-            <b-button block  type="submit" @click.prevent="handleSubmit">登录</b-button>
+            <b-button block @click.prevent="handleSubmit" type="submit">登录</b-button>
             <b-button block @click="handleSignIn">注册</b-button>
-        </form>
+        </b-form>
 
-    </div>
+    </b-container>
         <router-view v-if="signIn"></router-view>
     </div>
 

@@ -57,6 +57,10 @@ const store = new Vuex.Store({
             state.user.avatar=data.avatar;
             state.user.type=data.user_type;
         },
+        submitCart(state){
+            state.count=0;
+            state.cartItem.clear();
+        }
     }
 })
 export default store;
