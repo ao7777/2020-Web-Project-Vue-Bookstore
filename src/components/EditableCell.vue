@@ -1,6 +1,6 @@
 <template>
     <span v-if="isShow" @dblclick="handleEdit" >{{value}}</span>
-    <label class="editInput" v-else @blur="cancelEdit">
+    <label class="editInput" v-else @blur="cancelEdit" @focusout="cancelEdit">
         <input v-if="inputType==='text'" :type="inputType" class="editInput"
                :placeholder="'输入'+typeDesc"
                @keypress.enter="submit" v-model="typeValue" />

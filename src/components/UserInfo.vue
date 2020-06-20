@@ -2,12 +2,12 @@
     <div class="navBarContainer">
         <ul class="navBar" @mouseleave="showAccntOption=false" >
             <li class="menu" >
-                <a class="menuButton" href="./home">
+                <router-link class="menuButton" to="/books">
                     <i class="fas fa-kiwi-bird"></i>
-                </a>
+                </router-link>
             </li>
             <li :id="menu.name" :key="menu.name" class="menu" v-for="menu in menus">
-                <NavButton :Func="menu.ref" :Name="menu.name" :visible="!showSearch" @switch="handleSwitch"/>
+                <NavButton :Func="menu.ref" :Name="menu.name" :visible="!showSearch" />
             </li>
             <li :class="[showSearch?'showingSearch':'']">
                 <a @click="showSearch=!showSearch" class="searchIcon" href="javascript:">
@@ -15,8 +15,9 @@
                 </a>
             </li>
             <li class="menu  nav-item dropdown"  >
-                <a class="menuButton avatarButton nav-link dropdown-toggle" href="#"
+                <a class="menuButton avatarButton nav-link dropdown-toggle" href="/Login"
                    @mouseover="showAccntOption=true"
+                   style="padding:0"
                    data-toggle="dropdown"
                 >
                     <i class="far fa-user-circle menuButton "></i>
@@ -25,10 +26,9 @@
                 <AccountInfo v-if="showAccntOption" @logout="handleLogout"/>
             </li>
         </ul>
-        <SearchBar :init-book-data="bookData"
+        <SearchBar
                    :show="showSearch"
                    @cancelSearch="showSearch=false"
-                   @submit="handleSubmit"
         />
     </div>
 
@@ -42,49 +42,53 @@
 
     export default {
         name: "UserInfo",
-        props: ['initBookData','loginStatus','initUserInfoData','userInitID','display'],
         data: function () {
             return {
-                userInfoData:this.initUserInfoData,
-                menus: [
-                    {ref: "books", name: "图书"},
-                    {ref: "cart", name: "购物袋"},
-                    {ref: "orders", name: "订单"},
-                    {ref: "account", name: "账号"}
-                ],
                 showSearch: false,
                 searchIcon: searchicon,
                 filterText: '',
-                bookData: this.initBookData,
-                isLogin:this.loginStatus,
                 showAccntOption:false,
+                menus:[
+                    {ref: "books", name: "图书"},
+                    {ref: "cart", name: "购物袋"},
+                    {ref: "orders", name: "订单"},
+                    {ref: "account", name: "账号"},
+                ]
             }
         },
         components: {AccountInfo, NavButton, SearchBar},
         methods: {
-            handleSubmit: function (e) {
-                this.filterText = e;
-                this.$emit("requestSearch", this.filterText);
-            },
             handleLogout:function(){
                 this.$emit('logout');
             },
-            handleSwitch:function (e) {
-                this.$emit('switch',e);
-            }
         },
         computed:{
+            userType:function(){
+                return this.$store.state.user.type;
+            },
             userCompName:function () {
-                if(this.loginStatus){
-                    return this.userInfoData.name;
+                if(this.$store.state.loginStatus){
+                    return this.$store.state.user.name;
                 }
                 else return "登录";
             },
         },
         watch:{
-            userInitID:function(){
-                this.isLogin=this.loginStatus;
-            }
+            userType:function(newType){
+                if(newType==='admin'){
+                    this.menus.push({ref:'manage',name:"管理"})
+                }
+                else{
+                    let index=this.menus.findIndex(
+                        (menu)=>{
+                            return menu.ref==='manage'
+                        }
+                    );
+                    if(index!==-1){
+                        this.menus.splice(index,1);
+                    }
+                }
+        }
         }
     }
 </script>
@@ -148,7 +152,6 @@
 
     .showingSearch {
         visibility: hidden;
-        transition: 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
 
     ul li.menu:nth-child(4) a.menuButton.hidden {

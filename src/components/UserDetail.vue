@@ -2,7 +2,7 @@
     <div>
         <div class="infoContainer">
             <div class="avatar">
-                <img style="width: auto" :src="'http://localhost:8090'+user.avatar"/>
+                <img style="width: auto" :src="'http://localhost:8070'+user.avatar"/>
                 <h2 class="welcome">欢迎，{{user.name}}。</h2>
             </div>
             <div class="description">
@@ -11,16 +11,17 @@
                 <p>账户类型：{{user.type}}</p>
                 <p>账户余额：{{balance/100.0}}元</p>
                 <p>个人信息：{{profile}}</p>
-                <button @click.prevent="handleAvatar" title="更改头像">更改头像</button>
+                <b-button @click.prevent="handleAvatar" title="更改头像">更改头像</b-button>
             </div>
         </div>
         <div class="infoContainer">
             <h2>近期订单</h2>
-            <OrderRow v-for="order in orders" :order="order" :key="order[0].orderSetID"/>
+            <OrderRow v-for="order in orders" :order="order" :key="order.orderID"/>
         </div>
         <div class="infoContainer">
             <h2>猜你喜欢</h2>
         </div>
+
     </div>
 </template>
 
@@ -30,9 +31,10 @@
     export default {
         name: "UserDetail",
         components: {OrderRow},
-        props:['mode','user','guessLike'],
         data:function(){
             return {
+                mode:this.$store.state.user.type,
+                user:this.$store.state.user,
                 orders:[],
                 balance:0,
                 profile:"",
@@ -43,32 +45,23 @@
 
             },
             handleOrder(response){
-                let j=0;
-                let ID=response.data[0].order_setid;
-                this.orders.push([]);
                 for(let i in response.data) {
-                    if(ID!==response.data[i].order_setid)
-                    {
-                        j++;
-                        this.orders.push([]);
-                        ID=response.data[i].order_setid;
-                    }
-                    this.orders[j].push(
+                    this.orders.push(
                         {
                             transactionDate:response.data[i].transaction_date,
-                            isbn:response.data[i].isbn,
-                            orderID:response.data[i].orderID,
-                            quantity:response.data[i].quantity,
-                            orderSetID:response.data[i].order_setid,
-                            amount:response.data[i].amount,
+                            orderID:response.data[i].order_id,
+                            items:response.data[i].items
                         }
-                    );
-                    if(j>0)break;
-
+                    )
                 }
+                this.orders.sort((a,b)=>{
+                    return -Date.parse(a.transactionDate)+Date.parse(b.transactionDate)
+                });
+                this.orders.splice(3,this.orders.length)
             }
         },
         created:function(){
+            console.log(this.$store.state.user)
             server.get('/getOrder',{params:{
                     ID:this.user.ID
                 }}
@@ -82,7 +75,7 @@
             );
             server.get("/UserInfo",{
                     params:{
-                        user_name:this.user.name,
+                        user_name:this.$store.state.user.name,
                     }
                 }
             ).then(

@@ -1,8 +1,8 @@
 
 import axios from 'axios'
-import router from '../main'
+import router from "@/router/router";
 const server = axios.create({
-    baseURL:"http://localhost:8090/",
+    baseURL:"http://localhost:8070/",
     timeout:5000,
 });
 // 设置拦截器
@@ -14,6 +14,7 @@ server.interceptors.request.use(
         }
         return config;
     },(error)=>{
+        this.$dialog.alert(error);
         return Promise.reject(error);
     }
 );

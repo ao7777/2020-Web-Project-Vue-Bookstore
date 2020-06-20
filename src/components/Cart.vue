@@ -13,6 +13,7 @@
             <h2>下单成功</h2>
             <p>你的书籍正在飞速赶来。</p>
         </div>
+
     </div>
 </template>
 
@@ -22,11 +23,11 @@
     export default {
         name: "Cart",
         components: {CartRow},
-        props:['userID','cartItem'],
         data:function () {
             return {
                 books:[],
                 success:false,
+                cartItem:this.$store.state.cartItem
             }
         },
         computed: {
@@ -74,10 +75,20 @@
                 )
             },
             handleSubmit:function(){
-                this.$emit('submit');
+                server.post('/OrderSubmit',{
+                        ID:this.$store.state.user.ID,
+                    }
+                ).catch(
+                    function(error){
+                        console.log(error);
+                    }
+                ).then(
+                    ()=>{
                 this.success=true;
                 this.books.splice(0,this.books.length);
-                this.cartItem.splice(0,this.books.length);
+                this.$store.state.cartItem.splice(0,this.books.length);
+                }
+                )
             }
         }
     }

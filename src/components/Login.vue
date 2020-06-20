@@ -1,12 +1,9 @@
 <template>
-    <div class="text-center container">
+    <div style="margin-top: 88px;position: relative;">
+    <div  class="text-center container">
         <i class="fas fa-kiwi-bird"></i>
-        <form class="form-signin" >
+        <form v-if="signIn===false" class="form-signin" >
             <h2 class="h3 mb-3 font-weight-normal">请登录</h2>
-            <p>Administer:Password 654321
-            <br/>
-                Guest:Password 123456
-            </p>
             <label for="inputName" class="sr-only">用户名</label>
             <input type="text" id="inputName" class="form-control"
                    v-model="name"
@@ -22,13 +19,19 @@
                            value="remember-me"> 记住我
                 </label>
             </div>
-            <button class="btn btn-primary btn-block btn-lg" type="submit" @click.prevent="handleSubmit">登录</button>
+            <b-button block  type="submit" @click.prevent="handleSubmit">登录</b-button>
+            <b-button block @click="handleSignIn">注册</b-button>
         </form>
 
     </div>
+        <router-view v-if="signIn"></router-view>
+    </div>
+
 </template>
 
 <script>
+    import server from "@/http/request";
+
     export default {
         name: "Login",
         data:function(){
@@ -36,11 +39,48 @@
                 name:'',
                 password:-1,
                 remember:false,
+                signIn:false,
             }
         },
         methods:{
             handleSubmit:function(){
-                this.$emit('submit',this.name,this.password,this.remember);
+                server.get("/Login",{
+                        params:{
+                            user_name:this.name,
+                            password:this.password,
+                        }
+                    }
+                ).then(
+                    (response)=>{
+                        if(response.data.LoginStatus){
+                            if(response.data.user_type!=='banned'){
+                                this.$dialog.alert('登录成功').then(
+                                    (dialog)=>{
+                                        this.$router.push('/books');
+                                        response.data.name=this.name;
+                                        this.$store.commit('login',response.data);
+                                        dialog.close();
+                                    })
+                            }
+                            else{
+                                this.$dialog.alert('您的账户已被禁用，请联系管理员解禁。').then(
+                                    (dialog)=>{
+                                        dialog.close();
+                                    })
+                            }
+                        }
+                        else{
+                            this.$dialog.alert('用户名或密码错误').then(
+                                (dialog)=>{
+                                    dialog.close();
+                                })
+                        }
+                    }
+                );
+            },
+            handleSignIn:function(){
+                this.signIn=true;
+                this.$router.push('/signIn');
             }
         }
     }
@@ -49,8 +89,7 @@
 <style scoped>
 .container{
     position: relative;
-    width:40%;
-    top:88px;
+    width:100%;
 }
     .fa-kiwi-bird{
         font-size:40px;
@@ -70,41 +109,8 @@
     padding: 15px;
     margin: auto;
 }
-*, ::after, ::before {
-    box-sizing: border-box;
-}
-form {
-    display: block;
-    margin-top: 0;
-}
-.font-weight-normal {
-    font-weight: 400!important;
-}
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    white-space: nowrap;
-    border: 0;
-}
-.form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
+.form-signin .checkbox {
     font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .form-signin .form-control {
     position: relative;
@@ -113,15 +119,10 @@ form {
     padding: 10px;
     font-size: 16px;
 }
-[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
-    cursor: pointer;
-}
-
 .form-signin .form-control:focus {
     z-index: 2;
 }
-
-.form-signin input[type="name"] {
+.form-signin input[type="text"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
@@ -130,41 +131,5 @@ form {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-}
-.form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-}
-.form-control:focus {
-    color: #495057;
-    background-color: #fff;
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
-
-[type=button], [type=reset], [type=submit], button {
-    -webkit-appearance: button;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-button, input, optgroup, select, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-.mb-3, .my-3 {
-    margin-bottom: 1rem!important;
-}
-.checkbox {
-    font-weight: 100;
 }
 </style>

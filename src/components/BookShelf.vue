@@ -5,9 +5,9 @@
              >
             <div class="img" >
             <a target="_blank" href="" class="img" @click.prevent="showInfo(book.isbn)">
-                <img :src="'http://localhost:8090'+book.pic+'.jpg'" :alt="book.name"  />
+                <img :src="'http://localhost:8070'+book.pic+'.jpg'" :alt="book.name"  />
             </a>
-            <div class="desc" v-if="type==='admin'">
+            <div class="desc" v-if="userType==='admin'">
 
                 <p><EditableCell input-type="text"
                               show="true"
@@ -43,8 +43,10 @@
                     <a class="buyButton" href="#" @click.prevent="handleAdd(book.isbn,$event)" title="加入购物车">
                         <i class="fas fa-kiwi-bird"></i>
                     </a>
-                    <span class="storage">库存：{{book.storage}}本</span>
+                    <br/>
+                    <span  class="storage">库存：{{book.storage}}本 已售：{{book.sales}}本</span>
                 </p>
+
             </div>
                 <div class="desc" v-else >
                     <p >{{book.name}}</p>
@@ -56,13 +58,14 @@
                         <a class="buyButton" href="#" @click.prevent="handleAdd(book.isbn,$event)" title="加入购物车">
                             <i class="fas fa-kiwi-bird"></i>
                         </a>
-                        <span class="storage">库存：{{book.storage}}本</span>
+                        <br/>
+                        <span class="storage">库存：{{book.storage}}本 已售：{{book.sales}}本</span>
+
                     </p>
                 </div>
             </div>
             <div :class="[book.show&&showingInfo?'bookInfo showing':'bookInfo']" >
                 <span  v-html="bookInfo" class="InfoText"></span>
-
             </div>
         </div>
         <div class="ball-container">
@@ -82,16 +85,11 @@
     export default {
         name: "BookShelf",
         components: {EditableCell},
-        props:['initFilterText','initBookData','isRequestSearch','edit','mode'],
         data:function(){
             return {
-                filterText:this.initFilterText,
-                bookData:this.initBookData,
                 bookInfo:"",
                 books:[],
                 noResult:false,
-                isSearch:this.isRequestSearch,
-                type:this.mode,
                 showingInfo:false,
                 balls: [
                     {
@@ -123,14 +121,9 @@
         },
         watch:
             {
-                initFilterText: function () {
-                    this.filterText=this.initFilterText;
+                filterText: function () {
                     this.refreshBooks();
-                    this.isSearch=false;
                 },
-                mode:function(){
-                    this.type=this.mode;
-                }
             },
         methods:{
             handleSubmit:function(value,isbn,type){
@@ -163,7 +156,6 @@
                        console.log(error);
                    }
                );
-
             },
             hideInfo:function(isbn){
                 const index=this.books.findIndex(
@@ -185,6 +177,7 @@
                             }
                         );
                         this.bookInfo="<h4>"+this.books[index].name+"</h4>";
+                        this.bookInfo+="<p> ISBN:"+this.books[index].isbn+"<p>";
                         this.bookInfo+=response.data.book_description;
                         this.books.forEach((book)=>{
                             book.show=false;
@@ -249,6 +242,7 @@
                     (book)=> {
                         if((book.name.indexOf(this.filterText)!==-1||
                             book.author.indexOf(this.filterText)!==-1||
+                            book.isbn.indexOf(this.filterText)!==-1||
                             book.press.indexOf(this.filterText)!==-1)&&
                             this.books.indexOf(book)===-1
                         )
@@ -259,6 +253,17 @@
                     }
                 );
                 this.noResult=(cnt===0);
+            }
+        },
+        computed:{
+            filterText:function(){
+                return this.$store.state.filterText;
+            },
+            bookData:function(){
+                return JSON.parse(localStorage.getItem('books'));
+            },
+            userType:function(){
+                return this.$store.state.user.type;
             }
         }
     }
@@ -334,10 +339,7 @@
         width: 70%;
     }
     .storage{
-        position: relative;
-        float: right;
         font-size: small;
-        bottom: 0;
     }
     .ball-container .ball{
         position:fixed;

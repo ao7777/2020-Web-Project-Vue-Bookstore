@@ -5,7 +5,7 @@
                 <i class="fas fa-search"></i>
                 <input
                         class="searchInput"
-                        placeholder="搜索"
+                        :placeholder="filterText===''?'搜索':filterText"
                         v-model="filterText"
                         @keypress.enter="handleSubmit"
                         @focus="isFocus=true"
@@ -24,14 +24,14 @@
     import iconPic from "../assets/searchicon.png"
     export default {
         name: "SearchBar",
-        props:['initBookData','show'],
+        props:['show'],
         data:function () {
         return{
                 iconPic,
             isPeeking:false,
             filterText:"",
             isFocus:false,
-            bookData:this.initBookData,
+            bookData:JSON.parse(localStorage.getItem('books')),
             books:[]
             }
         },
@@ -43,16 +43,17 @@
                     this.refreshBooks();
                 },
                 isFocus:function (newf) {
-                    if(newf==false){
+                    if(newf===false){
                         this.$emit("cancelSearch");
                         this.filterText='';
+
                     }
                 }
             },
         methods:{
             handleSubmit:function () {
                 this.isPeeking=false;
-                this.$emit('submit',this.filterText);
+                this.$store.commit('filter',this.filterText);
             },
             refreshBooks:function () {
                 this.books.splice(0,this.books.length);
@@ -61,6 +62,7 @@
                         let cnt=0;
                         if((book.name.indexOf(this.filterText)!==-1||
                             book.author.indexOf(this.filterText)!==-1||
+                            book.isbn.indexOf(this.filterText)!==-1||
                             book.press.indexOf(this.filterText)!==-1)&&cnt<3&&
                             this.books.indexOf(book)===-1&&
                             this.filterText!==''

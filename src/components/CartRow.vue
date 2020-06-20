@@ -1,6 +1,6 @@
 <template>
     <div class="cartRow">
-        <img class="cartPic" :src="'http://localhost:8090'+item.pic+'.jpg'" :alt="item.name"/>
+        <img class="cartPic" :src="'http://localhost:8070'+item.pic+'.jpg'" :alt="item.name"/>
         <div class="cartDesc" >
             <p >{{item.name}}</p>
             <p class="detail">

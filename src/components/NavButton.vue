@@ -1,7 +1,7 @@
 <template >
-        <a :class="[visible?'menuButton':'menuButton hidden']"  href="#" @click="handleSwitch" :title="buttonName">
+        <router-link :to="Func" :class="[visible?'menuButton':'menuButton hidden']" :title="buttonName">
             <span>{{buttonName}}</span>
-        </a>
+        </router-link>
 </template>
 
 <script>

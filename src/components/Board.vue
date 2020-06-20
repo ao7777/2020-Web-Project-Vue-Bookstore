@@ -2,7 +2,7 @@
         <div class="boardContainer">
             <span class="greeting">书富如入海,
                 <br />百货皆有。</span>
-            <img class="board" src="http://localhost:8090/board.jpg" alt="''"/>
+            <img class="board" src="http://localhost:8070/board.jpg" alt="''"/>
         </div>
 </template>
 
@@ -14,11 +14,10 @@
 
 <style scoped>
     .board{
-
+        width: 100%;
     }
     .boardContainer{
         margin: auto;
-        width: 100%;
     }
     .greeting{
         position: absolute;
