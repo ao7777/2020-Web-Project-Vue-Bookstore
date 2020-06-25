@@ -80,7 +80,7 @@
 </template>
 
 <script>
-    import EditableCell from "@/components/EditableCell";
+    import EditableCell from "@/components/utils/EditableCell";
     import server from '@/http/request'
     export default {
         name: "BookShelf",

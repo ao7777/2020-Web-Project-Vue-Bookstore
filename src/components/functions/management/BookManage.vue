@@ -13,8 +13,8 @@
 
         </transition>
             <router-view ></router-view>
-
-        <b-card-group columns>
+        <h3 v-if="noResult"><em>暂无搜索结果</em></h3>
+        <b-card-group v-else columns>
             <b-card :title="book.name"
                     :sub-title="'ISBN:'+book.isbn"
                     v-for="book in books"
@@ -49,7 +49,8 @@
             return{
               showAdd:false,
             bookData:JSON.parse(localStorage.getItem('books')),
-                books:[]
+                books:[],
+                noResult:false
             };
         },
         created:function(){

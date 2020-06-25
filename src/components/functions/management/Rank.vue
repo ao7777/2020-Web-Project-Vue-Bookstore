@@ -72,7 +72,7 @@
 
 <script>
     import server from "@/http/request";
-    import DateSelector from "@/components/DateSelector";
+    import DateSelector from "@/components/utils/DateSelector";
     export default {
         name: "Rank",
         components: {DateSelector},

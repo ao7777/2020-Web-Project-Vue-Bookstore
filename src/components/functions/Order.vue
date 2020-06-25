@@ -13,9 +13,9 @@
 </template>
 
 <script>
-    import OrderRow from "@/components/OrderRow";
+    import OrderRow from "@/components/functions/OrderRow";
     import server from "@/http/request";
-    import DateSelector from "@/components/DateSelector";
+    import DateSelector from "@/components/utils/DateSelector";
     export default {
         name: "Order",
         components: {DateSelector, OrderRow},

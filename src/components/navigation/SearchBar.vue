@@ -20,8 +20,8 @@
 </template>
 
 <script>
-    import PeekResult from "@/components/PeekResult";
-    import iconPic from "../assets/searchicon.png"
+    import PeekResult from "@/components/navigation/PeekResult";
+    import iconPic from "../../assets/searchicon.png"
     export default {
         name: "SearchBar",
         props:['show'],

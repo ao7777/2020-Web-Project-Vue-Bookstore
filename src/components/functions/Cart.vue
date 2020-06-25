@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import CartRow from "@/components/CartRow";
+    import CartRow from "@/components/functions/CartRow";
     import server from "@/http/request";
     export default {
         name: "Cart",

@@ -25,10 +25,11 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
-                <b-form-group id="input-group-2" label="用户名:" label-for="input-2">
+                <b-form-group id="input-group-2" label="用户名:" label-for="input-2" >
                     <b-form-input
                             id="input-2"
                             v-model="$v.form.name.$model"
+                            prefix="@"
                             required
                             placeholder="输入用户名"
                             :state="validateState('name')"

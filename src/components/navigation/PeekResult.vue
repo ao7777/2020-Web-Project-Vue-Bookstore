@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import PeekRow from "@/components/PeekRow";
+    import PeekRow from "@/components/navigation/PeekRow";
     export default {
         name: "PeekResult",
         props:['bookData','filterText'],

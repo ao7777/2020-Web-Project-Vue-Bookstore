@@ -21,16 +21,17 @@
         <div class="infoContainer">
             <h2>猜你喜欢</h2>
         </div>
-
+        <Statistics />
     </div>
 </template>
 
 <script>
-    import OrderRow from "@/components/OrderRow";
+    import OrderRow from "@/components/functions/OrderRow";
     import server from "@/http/request";
+    import Statistics from "@/components/functions/management/Statistics";
     export default {
         name: "UserDetail",
-        components: {OrderRow},
+        components: {Statistics, OrderRow},
         data:function(){
             return {
                 mode:this.$store.state.user.type,

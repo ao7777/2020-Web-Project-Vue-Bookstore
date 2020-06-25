@@ -5,18 +5,18 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 //1. 定义 (路由) 组件。
-import BookAdder from "@/components/management/BookAdder";
-import Admin from "@/components/Admin";
+import BookAdder from "@/components/functions/management/BookAdder";
+import Admin from "@/components/functions/Admin";
 import Browser from "@/components/Browser";
-import Cart from "@/components/Cart";
-import Order from "@/components/Order";
-import UserDetail from "@/components/UserDetail";
-import SignIn from "@/components/SignIn";
-import Login from "@/components/Login";
-import BookManage from "@/components/management/BookManage";
-import UserManage from "@/components/management/UserManage";
-import OrderManage from "@/components/management/OrderManage";
-import Rank from "@/components/management/Rank";
+import Cart from "@/components/functions/Cart";
+import Order from "@/components/functions/Order";
+import UserDetail from "@/components/functions/UserDetail";
+import SignIn from "@/components/utils/SignIn";
+import Login from "@/components/utils/Login";
+import BookManage from "@/components/functions/management/BookManage";
+import UserManage from "@/components/functions/management/UserManage";
+import OrderManage from "@/components/functions/management/OrderManage";
+import Rank from "@/components/functions/management/Rank";
 //2. 定义路由
 const routes = [
     {

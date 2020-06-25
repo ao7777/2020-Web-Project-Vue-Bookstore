@@ -36,9 +36,9 @@
 </template>
 
 <script>
-    import NavButton from "@/components/NavButton";
+    import NavButton from "@/components/navigation/NavButton";
     import searchicon from "@/assets/searchicon.png";
-    import SearchBar from "@/components/SearchBar";
+    import SearchBar from "@/components/navigation/SearchBar";
 
     export default {
         name: "UserInfo",

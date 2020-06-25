@@ -20,8 +20,8 @@
 
 <script>
     // import Browser from "@/components/Browser";
-    import UserInfo from "@/components/UserInfo";
-    import Login from "@/components/Login";
+    import UserInfo from "@/components/navigation/UserInfo";
+    import Login from "@/components/utils/Login";
     import server from "@/http/request";
     import ShoppingIndicator from "@/components/ShoppingIndicator";
     // import UserDetail from "@/components/UserDetail";
