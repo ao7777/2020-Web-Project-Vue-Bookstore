@@ -14,16 +14,17 @@
                     <i class="fas fa-search"></i>
                 </a>
             </li>
-            <li class="menu  nav-item dropdown"  >
-                <a class="menuButton avatarButton nav-link dropdown-toggle" href="/Login"
-                   @mouseover="showAccntOption=true"
-                   style="padding:0"
-                   data-toggle="dropdown"
-                >
-                    <i class="far fa-user-circle menuButton "></i>
-                    {{userCompName}}
-                </a>
-                <AccountInfo v-if="showAccntOption" @logout="handleLogout"/>
+            <li class="menu">
+                <b-dropdown toggle-tag="a" style="top:6px" toggle-class="menuButton" >
+                    <template v-slot:button-content >
+                        <i class="far fa-user-circle menuButton "></i>
+                        {{userCompName}}
+                    </template>
+                    <b-dropdown-item>账号信息</b-dropdown-item>
+                    <b-dropdown-item>设置</b-dropdown-item>
+                    <b-dropdown-divider/>
+                    <b-dropdown-item @click="handleLogout">注销</b-dropdown-item>
+                </b-dropdown>
             </li>
         </ul>
         <SearchBar
@@ -38,7 +39,6 @@
     import NavButton from "@/components/NavButton";
     import searchicon from "@/assets/searchicon.png";
     import SearchBar from "@/components/SearchBar";
-    import AccountInfo from "@/components/AccountInfo";
 
     export default {
         name: "UserInfo",
@@ -49,14 +49,14 @@
                 filterText: '',
                 showAccntOption:false,
                 menus:[
-                    {ref: "books", name: "图书"},
-                    {ref: "cart", name: "购物袋"},
-                    {ref: "orders", name: "订单"},
-                    {ref: "account", name: "账号"},
+                    {ref: "/books", name: "图书"},
+                    {ref: "/cart", name: "购物袋"},
+                    {ref: "/orders", name: "订单"},
+                    {ref: "/account", name: "账号"},
                 ]
             }
         },
-        components: {AccountInfo, NavButton, SearchBar},
+        components: {NavButton, SearchBar},
         methods: {
             handleLogout:function(){
                 this.$emit('logout');
@@ -75,18 +75,16 @@
         },
         watch:{
             userType:function(newType){
-                if(newType==='admin'){
-                    this.menus.push({ref:'manage',name:"管理"})
-                }
-                else{
-                    let index=this.menus.findIndex(
-                        (menu)=>{
-                            return menu.ref==='manage'
-                        }
-                    );
-                    if(index!==-1){
-                        this.menus.splice(index,1);
+                let index=this.menus.findIndex(
+                    (menu)=>{
+                        return menu.ref==='/manage/book'
                     }
+                );
+                if(index!==-1&&newType!=='admin'){
+                        this.menus.splice(index,1);
+                }
+                if(index===-1){
+                    this.menus.push({ref:'/manage/book',name:"管理"})
                 }
         }
         }

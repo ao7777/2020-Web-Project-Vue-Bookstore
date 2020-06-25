@@ -1,5 +1,5 @@
 <template >
-        <router-link :to="Func" :class="[visible?'menuButton':'menuButton hidden']" :title="buttonName">
+        <router-link :to="Func" replace :class="[visible?'menuButton':'menuButton hidden']" :title="buttonName">
             <span>{{buttonName}}</span>
         </router-link>
 </template>

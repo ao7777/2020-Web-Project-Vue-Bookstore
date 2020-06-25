@@ -4,6 +4,7 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'animate.css'
 import './App.css';
 
 import VueCookies from 'vue-cookies'

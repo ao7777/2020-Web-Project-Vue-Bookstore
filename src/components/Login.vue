@@ -65,9 +65,11 @@
                             if(response.data.user_type!=='banned'){
                                 this.$dialog.alert('登录成功').then(
                                     (dialog)=>{
-                                        this.$router.push('/books');
                                         response.data.name=this.name;
                                         this.$store.commit('login',response.data);
+                                        localStorage.loginStatus=true;
+                                        localStorage.setItem('user',JSON.stringify(this.$store.state.user));
+                                        this.$router.history.back();
                                         dialog.close();
                                     })
                             }

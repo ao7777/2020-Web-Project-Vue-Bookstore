@@ -61,7 +61,6 @@
             }
         },
         created:function(){
-            console.log(this.$store.state.user)
             server.get('/getOrder',{params:{
                     ID:this.user.ID
                 }}

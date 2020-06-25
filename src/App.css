@@ -33,11 +33,17 @@ body{
   transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .menuButton{
+
+  font-size: 14px;
   color: #cccccc;
+  background:transparent;
+  border: 0;
   transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .menuButton:hover,.menuButton:active{
   color: #FFFFFF;
+  background:transparent;
+  border: 0;
 }
 .floatButton{
   /*border: aquamarine;*/

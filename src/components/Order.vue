@@ -2,14 +2,7 @@
     <div class="infoContainer">
         <h1>订单</h1>
         <b-form-group id="inputDate1" label="筛选" label-for="inputDate1" style="width:100%;margin:auto;padding: 20px">
-            <b-row>
-                <b-col>
-                    从<b-form-datepicker id="inputDate1"   v-model="filterDateAfter"  class="mb-3"></b-form-datepicker>
-                </b-col>
-                <b-col>
-                    到<b-form-datepicker id="inputDate2"  v-model="filterDateBefore" class="mb-3"></b-form-datepicker>
-                </b-col>
-            </b-row>
+            <DateSelector @submit="handleDateFilter"/>
         </b-form-group>
         <div v-if="orders.length>0" style="width: 100%">
             <OrderRow v-for="order in orders" :order="order" :key="order.orderID" :manager="false"/>
@@ -22,17 +15,16 @@
 <script>
     import OrderRow from "@/components/OrderRow";
     import server from "@/http/request";
+    import DateSelector from "@/components/DateSelector";
     export default {
         name: "Order",
-        components: {OrderRow},
+        components: {DateSelector, OrderRow},
         data:function(){
             return{
                 staticOrders:[],
                 orders:[],
                 userID:this.$store.state.user.ID,
                 type:this.$store.state.user.type,
-                filterDateAfter:"2020-01-01",
-                filterDateBefore:"2020-12-31",
             }
         },
         created:function(){
@@ -64,23 +56,14 @@
                     return -Date.parse(a.transactionDate)+Date.parse(b.transactionDate)
                 });
                 this.staticOrders=this.orders;
-                }
-        },
-        watch:{
-                filterDateAfter:function(date){
-                    if(date!=null)
-                        this.orders= this.staticOrders.filter((order)=>{
-                            return ((Date.parse(date)-Date.parse(order.transactionDate))<0)&&(Date.parse(this.filterDateBefore)-Date.parse(order.transactionDate)>0);
-                        })
                 },
-                filterDateBefore:function(date){
-                    if(date!=null)
-                        this.orders= this.staticOrders.filter((order)=>{
-                            return ((Date.parse(this.filterDateAfter)-Date.parse(order.transactionDate))<0)&&(Date.parse(date)-Date.parse(order.transactionDate)>0);
-                        })
-                }
 
-        }
+            handleDateFilter(date){
+                this.orders= this.staticOrders.filter((order)=>{
+                    return ((Date.parse(date.after)-Date.parse(order.transactionDate))<=0)&&(Date.parse(date.before)-Date.parse(order.transactionDate)>=0);
+                });
+            },
+        },
     }
 </script>
 

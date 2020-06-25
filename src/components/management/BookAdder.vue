@@ -4,19 +4,19 @@
         <b-form @submit.stop.prevent="onSubmit" @reset="onReset" novalidate v-if="show">
             <b-form-file
                     @change="setFile"
-                    :state="cover"
+                    :state="Boolean(cover)"
                     placeholder="选择文件或拖拽"
                     drop-placeholder="拖拽到此处"
                     required
+                    browse-text="浏览"
                     accept="image/*"
             ></b-form-file>
-            <b-img center v-if="cover" :src="cover" thumbnail></b-img>
+            <b-img center v-if="Boolean(cover)" :src="cover" thumbnail></b-img>
             <b-row>
-                <b-col>
+                <b-col >
 
                     <b-form-group
                             id="input-group-1"
-                            label="图书名:"
                             label-for="input-1"
                     >
                         <b-form-input
@@ -32,7 +32,7 @@
                         </b-form-invalid-feedback>
                     </b-form-group>
 
-                    <b-form-group id="input-group-2" label="作者:" label-for="input-2">
+                    <b-form-group id="input-group-2"  label-for="input-2">
                         <b-form-input
                                 id="input-2"
                                 v-model="$v.form.author.$model"
@@ -57,7 +57,7 @@
                         </b-form-invalid-feedback>
                     </b-form-group>
 
-                    <b-form-group id="confirmPW" label="ISBN：" label-for="confirmPW">
+                    <b-form-group id="confirmPW" label-for="confirmPW">
                         <b-form-input id="confirmPW" type="text" v-model="$v.form.isbn.$model"
                                       placeholder="输入ISBN号"
                                       :state="validateState('isbn')"
@@ -71,7 +71,7 @@
                 <b-col>
 
 
-                    <b-form-group id="input-group-3" label="出版社:"  label-for="input-3">
+                    <b-form-group id="input-group-3"  label-for="input-3">
                         <b-form-select
                                 id="input-3"
                                 v-model="form.press"
@@ -81,7 +81,7 @@
                     </b-form-group>
 
                     <b-form-group id="inputDate" label="出版日期" label-for="inputDate">
-                        <b-form-datepicker id="inputDate"  v-model="form.date" class="mb-2"></b-form-datepicker>
+                        <b-form-datepicker id="inputDate" placeholder="未选择日期"  v-model="form.date" class="mb-2"></b-form-datepicker>
                     </b-form-group>
                     <b-form-group id="input-Stock" label="库存" label-for="input-Stock">
                         <b-form-input id="input-Stock" type="number"
@@ -176,7 +176,7 @@
                     (response)=>{
                         if(response.data.success===true){
                             this.$dialog.alert('添加成功').then(
-                                this.show=false
+                                ()=>{this.show=false; this.$router.replace('book');}
                             )
                         }
                         else{

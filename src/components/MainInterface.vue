@@ -4,13 +4,6 @@
                    @logout="handleLogout"
         />
         <router-view v-if="loginStatus"></router-view>
-<!--        <Browser v-if="display==='books'&&loginStatus" :type="display" :book-data="bookData" :filterText="filterText"-->
-<!--        :is-search="isSearch" :mode="user.type" @addItem="handleAdd"-->
-<!--        />-->
-<!--        <UserDetail v-if="display==='account'&&loginStatus" :mode="user.type" :user="user" :guess-like="guessLike"/>-->
-<!--        <Order v-if="display==='orders'&&loginStatus" type="full" :user-i-d=user.ID />-->
-<!--        <Cart v-if="display==='cart'&&loginStatus" :user-i-d="user.name" :cart-item="cartItem" @submit="handleBuy"/>-->
-<!--        <Admin v-if="display==='admin'&&loginStatus" :books="bookData"/>-->
         <Login v-else />
         <ShoppingIndicator v-if="loginStatus" />
 
@@ -47,7 +40,10 @@
         },
         // components:{Cart, UserDetail, UserInfo,Browser,Login,Order,Admin},
         components:{UserInfo,Login,ShoppingIndicator},
-        created:function(){
+        beforeCreate(){
+            this.$store.commit('init');
+        },
+        created(){
             server.get('/getBooks',).then(
                 (response)=>this.handleInfo(response)
             ).catch(
@@ -55,9 +51,6 @@
                     console.log(error);
                 }
             );
-            if(this.loginStatus===false){
-                this.$router.push('/Login');
-            }
         },
         computed:{
             guessLike:function(){
@@ -95,8 +88,8 @@
                 this.orders.clear();
                 }
                 this.remember=false;
-                this.loginStatus=false;
                 this.$store.commit('clear');
+                localStorage.loginStatus=false;
             },
     },
 

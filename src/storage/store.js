@@ -45,6 +45,13 @@ const store = new Vuex.Store({
         filter(state,filterText){
             state.filterText=filterText
         },
+        init(state){
+            if(localStorage.loginStatus!=null){
+                state.loginStatus=(localStorage.loginStatus==='true');
+                if(localStorage.loginStatus==='true')
+            state.user=JSON.parse(localStorage.getItem('user'));
+            }
+        },
         clear(state){
             state.user={type:'user'};
             state.loginStatus=false;
@@ -59,7 +66,7 @@ const store = new Vuex.Store({
         },
         submitCart(state){
             state.count=0;
-            state.cartItem.clear();
+            state.cartItem.splice(0,state.cartItem.length);
         }
     }
 })

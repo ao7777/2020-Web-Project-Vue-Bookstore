@@ -1,6 +1,5 @@
 <template>
-    <b-container >
-    <h2>用户管理</h2>
+    <b-container style="background: #FFFFFF;padding: 3px">
         <b-card-group columns>
             <b-card :title="user.name"
                     :sub-title="'ID:'+user.id"
@@ -8,7 +7,7 @@
                     :key="user.id"
                     style="max-width: 300px"
             >
-                <b-card-img-lazy :src="'http://localhost:8070'+user.avatar" style="height: 250px" class="rounded-0" :alt="user.name"/>
+                <b-card-img-lazy :src="'http://localhost:8070'+user.avatar" style="max-height: 250px" class="rounded-0" :alt="user.name"/>
 
                 <b-card-text >
                     邮箱 {{user.email}}
@@ -36,7 +35,7 @@
                 users:[]
             }
         },
-        created:function(){
+        created(){
             server.get('/GetUsers'
             )
                 .then(

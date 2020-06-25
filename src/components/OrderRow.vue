@@ -7,7 +7,7 @@
         <p class="check">
             购买时间:{{order.transactionDate}}<br/>
             订单号：{{order.orderID}}<br/>
-            <span v-if="manager">用户ID:{{order.userID}}</span>
+            <span v-if="manager">用户ID:{{order.userID}}</span><br/>
             实付：{{totalAmount/100.0}}元
         </p>
 
@@ -28,7 +28,7 @@
             let ta=0;
             this.order.items.forEach(
                 orderItem=>{
-                    ta+=orderItem.amount;
+                    ta+=orderItem.amount*orderItem.quantity;
                 }
             );
               return ta;

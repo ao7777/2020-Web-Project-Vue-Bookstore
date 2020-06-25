@@ -1,24 +1,16 @@
 <template>
-    <b-container>
-        <h2>订单管理</h2>
+    <b-container style="background: #FFFFFF">
         <b-form-group  id="inputDate1" label="筛选" label-for="inputDate1" style="margin:auto;padding: 20px">
             <b-row style="padding: 15px">
-                    <b-form-input class="mb-3"
-                            id="input-1"
-                            v-model="filterID"
-                            required
-                            placeholder="输入用户ID"
-                    ></b-form-input>
+                <b-form-input class="mb-3"
+                              type="text"
+                              id="input-1"
+                              v-model="filterID"
+                              required
+                              placeholder="输入用户ID"
+                ></b-form-input>
             </b-row>
-            <b-row>
-
-                <b-col>
-                    从<b-form-datepicker id="inputDate1"   v-model="filterDateAfter"   class="mb-3"></b-form-datepicker>
-                </b-col>
-                <b-col>
-                    到<b-form-datepicker id="inputDate2"  v-model="filterDateBefore" class="mb-3"></b-form-datepicker>
-                </b-col>
-            </b-row>
+            <DateSelector @submit="handleDateFilter"/>
         </b-form-group>
             <div v-if="orders.length>0" style="width: 100%">
             <OrderRow v-for="order in orders" :order="order" :key="order.orderID" :manager="true"/>
@@ -30,16 +22,15 @@
 <script>
     import OrderRow from "@/components/OrderRow";
     import server from "@/http/request";
+    import DateSelector from "@/components/DateSelector";
 
     export default {
         name: "OrderManage",
-        components: {OrderRow},
+        components: {DateSelector, OrderRow},
         data:function(){
             return{
                 staticOrders:[],
                 orders:[],
-                filterDateAfter:"2020-01-01",
-                filterDateBefore:"2020-12-31",
                 filterID:null,
             }
         },
@@ -71,22 +62,24 @@
                     return -Date.parse(a.transactionDate)+Date.parse(b.transactionDate)
                 });
                 this.staticOrders=this.orders;
-            }
+            },
+            handleDateFilter(date){
+                    this.orders= this.staticOrders.filter((order)=>{
+                        return ((Date.parse(date.after)-Date.parse(order.transactionDate))<=0)&&(Date.parse(date.before)-Date.parse(order.transactionDate)>=0);
+                    });
+                    this.refreshID(this.filterID);
+            },
+        refreshID(ID){
+            if(ID!==''&&ID!=null)
+                this.orders=this.orders.filter((order)=>{return order.userID===Number(ID);})
+        }
         },
         watch:{
-            filterDateAfter:function(date){
-                if(date!=null)
-                    this.orders= this.staticOrders.filter((order)=>{
-                        return ((Date.parse(date)-Date.parse(order.transactionDate))<0)&&(Date.parse(this.filterDateBefore)-Date.parse(order.transactionDate)>0);
-                    })
+            filterID:function(ID){
+               this.refreshID(ID);
             },
-            filterDateBefore:function(date){
-                if(date!=null)
-                    this.orders= this.staticOrders.filter((order)=>{
-                        return ((Date.parse(this.filterDateAfter)-Date.parse(order.transactionDate))<0)&&(Date.parse(date)-Date.parse(order.transactionDate)>0);
-                    })
-            }
-        }
+
+        },
     }
 </script>
 

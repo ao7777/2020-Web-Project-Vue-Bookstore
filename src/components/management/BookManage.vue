@@ -1,11 +1,18 @@
 <template>
-    <b-container >
-        <b-row class="manageCell">
-            <router-link to="/addBook"  class="plusButton" >
+    <b-container style="background: #FFFFFF;border: 0.1rem #6c757d">
+        <transition
+                enter-active-class="animated bounceIn"
+                leave-active-class="animated bounceOut"
+                name="custom-classes-transition"
+        ><b-row class="manageCell" v-if="$router.currentRoute.path!=='/manage/book/addBook'">
+            <router-link to="/manage/book/addBook"  class="plusButton" >
                 <i class="fas fa-plus-circle" style="font-size: 60px"/>
             </router-link>
+
         </b-row>
-        <router-view ></router-view>
+
+        </transition>
+            <router-view ></router-view>
 
         <b-card-group columns>
             <b-card :title="book.name"
@@ -16,7 +23,7 @@
                     bg-variant="dark"
                     text-variant="white"
             >
-                        <b-card-img-lazy :src="'http://localhost:8070'+book.pic+'.jpg'" style="height: 300px" class="rounded-0" :alt="book.name"/>
+                        <b-card-img-lazy :src="'http://localhost:8070'+book.pic+'.jpg'" style="height: 80%" class="rounded-0" :alt="book.name"/>
 
                         <b-card-text >
                                 {{book.author}} 著
